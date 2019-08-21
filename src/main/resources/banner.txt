@@ -1,0 +1,8 @@
+${AnsiColor.BRIGHT_GREEN}
+________
+___  __/_______
+__  /_  _  ___/
+_  __/  / /__
+/_/     \___/
+
+:: Fraction Calculator ::
