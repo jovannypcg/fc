@@ -1,5 +1,7 @@
 # fc
 
+![](https://travis-ci.org/jovannypcg/fc.svg?branch=master)
+
 *fc* (Fraction Calculator) is a CLI tool that does math calculations with mixed numbers (mixed fractions) performing operations on fractions, whole numbers, integers, mixed numbers and improper fractions. *fc* can add, subtract, multiply and divide mixed numbers and fractions.
 
 ## Prerequisites
