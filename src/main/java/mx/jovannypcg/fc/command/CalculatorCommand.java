@@ -1,5 +1,6 @@
 package mx.jovannypcg.fc.command;
 
+import mx.jovannypcg.fc.commons.Message;
 import mx.jovannypcg.fc.validator.ArgumentValidator;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,10 @@ public class CalculatorCommand {
         argumentValidator.validate(args);
 
         if (!argumentValidator.isValid()) {
-            System.out.println(argumentValidator.getOutcome());
+            System.out.println(Message.usage(argumentValidator.getOutcome()));
             return;
         }
+
+        System.out.println("Success!");
     }
 }
