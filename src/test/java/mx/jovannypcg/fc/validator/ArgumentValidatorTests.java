@@ -64,7 +64,7 @@ public class ArgumentValidatorTests {
 
     @Test
     public void isValidOperand_shouldReturnTrueDueToValidOperand() {
-        String[] validOperands = { "1_7/8", "2", "45_3/2", "7/8", "3_1/2" };
+        String[] validOperands = { "1_7/8", "2", "45_3/2", "7/8", "3_1/2", "-3", "-4/3", "-7_5/8" };
 
         for (String operand : validOperands) {
             assertThat(argumentValidator.isValidOperand(operand)).isTrue();
@@ -73,7 +73,7 @@ public class ArgumentValidatorTests {
 
     @Test
     public void isValidOperand_shouldReturnFalseDueToInvalidOperand() {
-        String[] invalidOperands = { "1_/8", "2/", "_45_3/2", "abc", "1-2/7", "/23_2" };
+        String[] invalidOperands = { "1_/8", "2/", "_45_3/2", "abc", "1-2/7", "/23_2", "-1_/7" };
 
         for (String operand : invalidOperands) {
             assertThat(argumentValidator.isValidOperand(operand)).isFalse();

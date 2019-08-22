@@ -20,4 +20,8 @@ public class Message {
     public static String badArgumentSize(int expectedArguments) {
         return "There must be exactly " + expectedArguments + " arguments";
     }
+
+    public static String parsingError(String operand) {
+        return "Error while parsing operand " + operand;
+    }
 }
