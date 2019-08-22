@@ -27,7 +27,7 @@ $ ./gradlew clean build
 
 ## Usage
 
-Once build, the generated Java artifact is located at `build/libs/fc.jar` and can be executed by running:
+Once built, the generated Java artifact is located at `build/libs/fc.jar` and can be executed by running:
 
 ```shell
 $ cd build/libs
