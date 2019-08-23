@@ -2,6 +2,7 @@ package mx.jovannypcg.fc.domain;
 
 import mx.jovannypcg.fc.commons.Message;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class SimpleFraction {
@@ -24,6 +25,10 @@ public class SimpleFraction {
     }
     public int getDenominator() {
         return denominator;
+    }
+
+    public static SimpleFraction with(int numerator, int denominator) {
+        return new SimpleFraction(numerator, denominator);
     }
 
     public static SimpleFraction parse(String operand) {
@@ -88,5 +93,26 @@ public class SimpleFraction {
         int compositeNumerator = nWholeNumber * nDenominator + nNumerator;
 
         return new SimpleFraction(compositeNumerator, nDenominator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numerator, denominator);
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof SimpleFraction)) return false;
+
+        SimpleFraction thatFraction = (SimpleFraction) that;
+
+        return Objects.equals(this.numerator, thatFraction.numerator) &&
+                Objects.equals(this.denominator, thatFraction.denominator);
+    }
+
+    @Override
+    public String toString() {
+        return numerator + "/" + denominator;
     }
 }
