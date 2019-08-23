@@ -86,4 +86,15 @@ public class CalculatorCommand {
 
         return SimpleFraction.with(resultingNumerator, resultingDenominator);
     }
+
+    /**
+     * Returns the greatest common factor for {@code a} and {@code b} using the
+     * { @link https://en.wikipedia.org/wiki/Greatest_common_divisor Euclid's Algorithm}.
+     * Necessary to simplify fractions.
+     *
+     * @return Greatest common factor for {@code a} and {@code b}.
+     */
+    protected int GCD(int a, int b) {
+        return b == 0 ? a : GCD(b, a % b);
+    }
 }
