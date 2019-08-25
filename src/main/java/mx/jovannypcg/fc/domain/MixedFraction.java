@@ -9,6 +9,10 @@ public class MixedFraction extends Fraction {
         return wholeNumber;
     }
 
+    public static MixedFraction with(int wholeNumber, int numerator, int denominator) {
+        return new MixedFraction(wholeNumber, numerator, denominator);
+    }
+
     private MixedFraction(int wholeNumber, int numerator, int denominator) {
         super(numerator, denominator);
         this.wholeNumber = wholeNumber;
@@ -48,6 +52,13 @@ public class MixedFraction extends Fraction {
     @Override
     public String toString() {
         String wholeNumberPrefix = wholeNumber != 0 ? wholeNumber + "_" : "";
-        return wholeNumberPrefix + super.toString();
+
+        if (wholeNumber == 0) {
+            return super.toString(); // Only numerator and denominator
+        } else if (numerator == 0) {
+            return String.valueOf(wholeNumber); // Integer without fraction
+        } else {
+            return wholeNumberPrefix + super.toString();
+        }
     }
 }

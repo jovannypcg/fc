@@ -2,7 +2,7 @@ package mx.jovannypcg.fc.domain;
 
 import java.util.regex.Pattern;
 
-public class Fraction {
+public abstract class Fraction {
     private static final String INTEGER_PATTERN = "-?\\d+";
     private static final String SIMPLE_FRACTION_PATTERN = "-?\\d+\\/\\d+";
     private static final String MIXED_FRACTION_PATTERN = "-?\\d+_\\d+\\/\\d+";
