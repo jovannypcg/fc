@@ -109,4 +109,20 @@ public class FractionCalculatorTests {
             assertThat(addResult).isEqualTo(addResults[i]);
         }
     }
+
+    @Test
+    public void greatestCommonFactor_shouldReturnOneIfNoCommonFactor() {
+        int a = 3;
+        int b = 2;
+
+        assertThat(fractionCalculator.greatestCommonFactor(a, b)).isEqualTo(1);
+    }
+
+    @Test
+    public void greatestCommonFactor_whouldReturnCommonFactor() {
+        int a = 121;
+        int b = 11;
+
+        assertThat(fractionCalculator.greatestCommonFactor(a, b)).isEqualTo(11);
+    }
 }
