@@ -1,6 +1,8 @@
 package mx.jovannypcg.fc.validator;
 
 import mx.jovannypcg.fc.commons.Message;
+import mx.jovannypcg.fc.domain.Fraction;
+import mx.jovannypcg.fc.domain.SimpleFraction;
 import mx.jovannypcg.fc.exception.CalculatorException;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +11,7 @@ import java.util.regex.Pattern;
 @Component
 public class ArgumentValidator {
     public static final int ARGUMENTS_ALLOWED = 3;
-    private static final String OPERAND_PATTERN = "-?\\d+(_\\d+/\\d+)?(/\\d)?";
+    private static final String OPERAND_PATTERN = "-?\\d+(_\\d+/\\d+)?(/\\d+)?";
     private static final String OPERATOR_PATTERN = "[+\\-*/]"; // Any: +, -, /, *
 
     private String validationOutcome;

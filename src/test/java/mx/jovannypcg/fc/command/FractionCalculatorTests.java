@@ -14,13 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class CalculatorCommandTests {
+public class FractionCalculatorTests {
     private SimpleFraction[] xs; // First operand
     private SimpleFraction[] ys; // Second operand
 
     @Mock
     private ArgumentValidator argumentValidator;
-    private CalculatorCommand calculatorCommand;
+    private FractionCalculator fractionCalculator;
 
     @Before
     public void init() {
@@ -38,7 +38,7 @@ public class CalculatorCommandTests {
                 SimpleFraction.with(9, 8),
                 SimpleFraction.with(7, 3) };
 
-        calculatorCommand = new CalculatorCommand(argumentValidator);
+        fractionCalculator = new FractionCalculator(argumentValidator);
         Mockito.when(argumentValidator.isValid()).thenReturn(true);
     }
 
@@ -53,7 +53,7 @@ public class CalculatorCommandTests {
         };
 
         for (int i = 0; i < xs.length; i++) { // or ys.length
-            SimpleFraction addResult = calculatorCommand.add(xs[i], ys[i]);
+            SimpleFraction addResult = fractionCalculator.add(xs[i], ys[i]);
 
             assertThat(addResult).isEqualTo(addResults[i]);
         }
@@ -70,7 +70,7 @@ public class CalculatorCommandTests {
         };
 
         for (int i = 0; i < xs.length; i++) { // or ys.length
-            SimpleFraction addResult = calculatorCommand.subtract(xs[i], ys[i]);
+            SimpleFraction addResult = fractionCalculator.subtract(xs[i], ys[i]);
 
             assertThat(addResult).isEqualTo(addResults[i]);
         }
@@ -87,7 +87,7 @@ public class CalculatorCommandTests {
         };
 
         for (int i = 0; i < xs.length; i++) { // or ys.length
-            SimpleFraction addResult = calculatorCommand.multiply(xs[i], ys[i]);
+            SimpleFraction addResult = fractionCalculator.multiply(xs[i], ys[i]);
 
             assertThat(addResult).isEqualTo(addResults[i]);
         }
@@ -104,7 +104,7 @@ public class CalculatorCommandTests {
         };
 
         for (int i = 0; i < xs.length; i++) { // or ys.length
-            SimpleFraction addResult = calculatorCommand.divide(xs[i], ys[i]);
+            SimpleFraction addResult = fractionCalculator.divide(xs[i], ys[i]);
 
             assertThat(addResult).isEqualTo(addResults[i]);
         }

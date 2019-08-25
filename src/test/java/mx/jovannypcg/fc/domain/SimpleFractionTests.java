@@ -1,5 +1,6 @@
 package mx.jovannypcg.fc.domain;
 
+import mx.jovannypcg.fc.exception.CalculatorException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -125,13 +126,13 @@ public class SimpleFractionTests {
 
     @Test
     public void parse_shouldThrowIllegalArgumentExceptionWhenInvalidOperand() {
-        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(CalculatorException.class).isThrownBy(() -> {
             SimpleFraction.parse("-x_y/z");
         });
     }
 
     @Test
-    public void parse_shouldReturnSimpleFractionWithPositiveInteger() {
+    public void parse_shouldReturnSimpleFractionWithPositiveInteger() throws Exception {
         SimpleFraction simpleFraction = SimpleFraction.parse("8");
 
         assertThat(simpleFraction)
@@ -140,7 +141,7 @@ public class SimpleFractionTests {
     }
 
     @Test
-    public void parse_shouldReturnSimpleFractionWithNegativeInteger() {
+    public void parse_shouldReturnSimpleFractionWithNegativeInteger() throws Exception {
         SimpleFraction simpleFraction = SimpleFraction.parse("-41");
 
         assertThat(simpleFraction)
@@ -149,7 +150,7 @@ public class SimpleFractionTests {
     }
 
     @Test
-    public void parse_shouldReturnSimpleFractionWithPositiveOperandSimpleFraction() {
+    public void parse_shouldReturnSimpleFractionWithPositiveOperandSimpleFraction() throws Exception {
         SimpleFraction simpleFraction = SimpleFraction.parse("8/9");
 
         assertThat(simpleFraction)
@@ -158,7 +159,7 @@ public class SimpleFractionTests {
     }
 
     @Test
-    public void parse_shouldReturnSimpleFractionWithNegativeSimpleFraction() {
+    public void parse_shouldReturnSimpleFractionWithNegativeSimpleFraction() throws Exception {
         SimpleFraction simpleFraction = SimpleFraction.parse("-3/4");
 
         assertThat(simpleFraction)
@@ -167,7 +168,7 @@ public class SimpleFractionTests {
     }
 
     @Test
-    public void parse_shouldReturnSimpleFractionWithPositiveMixedFraction() {
+    public void parse_shouldReturnSimpleFractionWithPositiveMixedFraction() throws Exception {
         SimpleFraction simpleFraction = SimpleFraction.parse("3_2/5");
 
         int expectedNumerator = 3 * 5 + 2;
@@ -178,7 +179,7 @@ public class SimpleFractionTests {
     }
 
     @Test
-    public void parse_shouldReturnSimpleFractionWithNegativeMixedFraction() {
+    public void parse_shouldReturnSimpleFractionWithNegativeMixedFraction() throws Exception {
         SimpleFraction simpleFraction = SimpleFraction.parse("-7_5/8");
 
         int expectedNumerator = -7 * 8 + 5;
@@ -186,5 +187,21 @@ public class SimpleFractionTests {
         assertThat(simpleFraction)
                 .hasFieldOrPropertyWithValue("numerator", expectedNumerator)
                 .hasFieldOrPropertyWithValue("denominator", 8);
+    }
+
+    @Test
+    public void isImproper_shouldReturnTrue() {
+        int numerator = 7;
+        int denominator = 5;
+
+        assertThat(SimpleFraction.with(numerator, denominator).isImproper()).isTrue();
+    }
+
+    @Test
+    public void isImproper_shouldReturnFalse() {
+        int numerator = 5;
+        int denominator = 7;
+
+        assertThat(SimpleFraction.with(numerator, denominator).isImproper()).isFalse();
     }
 }

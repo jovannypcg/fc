@@ -1,25 +1,25 @@
 package mx.jovannypcg.fc.command;
 
-import mx.jovannypcg.fc.commons.Message;
+import mx.jovannypcg.fc.domain.Fraction;
+import mx.jovannypcg.fc.domain.MixedFraction;
 import mx.jovannypcg.fc.domain.SimpleFraction;
 import mx.jovannypcg.fc.exception.CalculatorException;
 import mx.jovannypcg.fc.validator.ArgumentValidator;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CalculatorCommand {
+public class FractionCalculator {
     private ArgumentValidator argumentValidator;
 
-    public CalculatorCommand(ArgumentValidator argumentValidator) {
+    public FractionCalculator(ArgumentValidator argumentValidator) {
         this.argumentValidator = argumentValidator;
     }
 
-    public void perform(String... args) throws CalculatorException {
+    public Fraction perform(String... args) throws CalculatorException {
         argumentValidator.validate(args);
 
         if (!argumentValidator.isValid()) {
-            System.out.println(Message.usage(argumentValidator.getOutcome()));
-            return;
+            throw new CalculatorException(argumentValidator.getOutcome());
         }
 
         String xOperand = args[0];
@@ -28,27 +28,27 @@ public class CalculatorCommand {
 
         SimpleFraction x = SimpleFraction.parse(xOperand);
         SimpleFraction y = SimpleFraction.parse(yOperand);
-        SimpleFraction result;
+        SimpleFraction simpleResult;
 
         switch (operator) {
             case '+':
-                result = add(x, y);
+                simpleResult = add(x, y);
                 break;
             case '-':
-                result = subtract(x, y);
+                simpleResult = subtract(x, y);
                 break;
             case '*':
-                result = multiply(x, y);
+                simpleResult = multiply(x, y);
                 break;
             case '/':
-                result = divide(x, y);
+                simpleResult = divide(x, y);
                 break;
             default:
                 throw new CalculatorException("Unknown operator \"" + operator + "\"");
 
         }
 
-        System.out.println("===> " + xOperand + " " + operator + " " + yOperand + " = " + result);
+        return simpleResult.hasZeroAsDenominator() ? simpleResult : simplify(simpleResult);
     }
 
     protected SimpleFraction add(SimpleFraction x, SimpleFraction y) {
@@ -94,7 +94,21 @@ public class CalculatorCommand {
      *
      * @return Greatest common factor for {@code a} and {@code b}.
      */
-    protected int GCD(int a, int b) {
-        return b == 0 ? a : GCD(b, a % b);
+    protected int greatestCommonFactor(int a, int b) {
+        return b == 0 ? a : greatestCommonFactor(b, a % b);
+    }
+
+    protected Fraction simplify(SimpleFraction simpleFraction) {
+        int gcf = greatestCommonFactor(simpleFraction.getNumerator(), simpleFraction.getDenominator());
+        int simplifiedNumerator = simpleFraction.getNumerator() / gcf;
+        int simplifiedDenominator = simpleFraction.getDenominator() / gcf;
+
+        Fraction simplified = SimpleFraction.with(simplifiedNumerator, simplifiedDenominator);
+
+        if (simplified.isImproper()) {
+            simplified = MixedFraction.parse(simplified);
+        }
+
+        return simplified;
     }
 }

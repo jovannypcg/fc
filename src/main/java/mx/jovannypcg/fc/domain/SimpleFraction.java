@@ -1,37 +1,20 @@
 package mx.jovannypcg.fc.domain;
 
 import mx.jovannypcg.fc.commons.Message;
+import mx.jovannypcg.fc.exception.CalculatorException;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
-public class SimpleFraction {
-    private static final String INTEGER_PATTERN = "-?\\d+";
-    private static final String SIMPLE_FRACTION_PATTERN = "-?\\d+\\/\\d+";
-    private static final String MIXED_FRACTION_PATTERN = "-?\\d+_\\d+\\/\\d+";
-
-    private int numerator;
-    private int denominator;
-
-    private SimpleFraction() {}
-
+public class SimpleFraction extends Fraction {
     private SimpleFraction(int numerator, int denominator) {
-        this.numerator = numerator;
-        this.denominator = denominator;
-    }
-
-    public int getNumerator() {
-        return numerator;
-    }
-    public int getDenominator() {
-        return denominator;
+        super(numerator, denominator);
     }
 
     public static SimpleFraction with(int numerator, int denominator) {
         return new SimpleFraction(numerator, denominator);
     }
 
-    public static SimpleFraction parse(String operand) {
+    public static SimpleFraction parse(String operand) throws CalculatorException {
         SimpleFraction simpleFraction;
 
         if (isInteger(operand)) {
@@ -41,28 +24,14 @@ public class SimpleFraction {
         } else if (isMixedFraction(operand)) {
             simpleFraction = parseMixedFraction(operand);
         } else {
-            throw new IllegalArgumentException(Message.parsingError(operand));
+            throw new CalculatorException(Message.parsingError(operand));
+        }
+
+        if (simpleFraction.hasZeroAsDenominator()) {
+            throw new CalculatorException(Message.zeroAsDenominatorFor(operand));
         }
 
         return simpleFraction;
-    }
-
-    protected static boolean isInteger(String operand) {
-        return Pattern.compile(INTEGER_PATTERN)
-                .matcher(operand)
-                .matches();
-    }
-
-    protected static boolean isSimpleFraction(String operand) {
-        return Pattern.compile(SIMPLE_FRACTION_PATTERN)
-                .matcher(operand)
-                .matches();
-    }
-
-    protected static boolean isMixedFraction(String operand) {
-        return Pattern.compile(MIXED_FRACTION_PATTERN)
-                .matcher(operand)
-                .matches();
     }
 
     /**
@@ -109,10 +78,5 @@ public class SimpleFraction {
 
         return Objects.equals(this.numerator, thatFraction.numerator) &&
                 Objects.equals(this.denominator, thatFraction.denominator);
-    }
-
-    @Override
-    public String toString() {
-        return numerator + "/" + denominator;
     }
 }

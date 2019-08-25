@@ -24,4 +24,19 @@ public class Message {
     public static String parsingError(String operand) {
         return "Error while parsing operand " + operand;
     }
+
+    public static String resultOutput(String[] args, String result) {
+        StringBuilder sb = new StringBuilder();
+
+        for (String arg : args) {
+            sb.append(arg).append(" ");
+        }
+
+        sb.append("= ").append(result);
+        return sb.toString();
+    }
+
+    public static String zeroAsDenominatorFor(String operand) {
+        return "Improper format for operand " + operand + ", 0 in the denominator";
+    }
 }
