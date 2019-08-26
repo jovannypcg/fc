@@ -9,30 +9,11 @@ import java.util.regex.Pattern;
 @Component
 public class ArgumentValidator {
     public static final int ARGUMENTS_ALLOWED = 3;
-    private static final String OPERAND_PATTERN = "-?\\d+(_\\d+/\\d+)?(/\\d)?";
+    private static final String OPERAND_PATTERN = "-?\\d+(_\\d+/\\d+)?(/\\d+)?";
     private static final String OPERATOR_PATTERN = "[+\\-*/]"; // Any: +, -, /, *
 
-    private String validationOutcome;
-    private boolean valid;
-
-    public boolean isValid() {
-        return valid;
-    }
-
-    public String getOutcome() {
-        return validationOutcome;
-    }
-
-    public void validate(String... args) {
-        try {
-            validateArguments(args);
-            // Everything went well
-            valid = true;
-        } catch(CalculatorException ce) {
-            validationOutcome = ce.getMessage();
-        } catch (Exception ex) {
-            validationOutcome = "Unexpected exception occurred while performing operation";
-        }
+    public void validate(String... args) throws CalculatorException {
+        validateArguments(args);
     }
 
     protected void validateSize(String... args) throws CalculatorException {

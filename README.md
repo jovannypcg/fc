@@ -6,16 +6,16 @@
 
 ## Prerequisites
 
-* Java 8
+* Java 11
 
 ### SDKMan
 
-Java 8 can be installed via [SDKMan](https://sdkman.io/install), which is a version manager for technologies related to the Java Virtual Machine (similar to `rbenv` for Ruby or `pyenv` for Python).
+Java 11 can be installed via [SDKMan](https://sdkman.io/install), which is a version manager for technologies related to the Java Virtual Machine (similar to `rbenv` for Ruby or `pyenv` for Python).
 
 ### Installing Java 8 using SDKMan
 
 ```shell
-$ sdk install java 8u151-oracle
+$ sdk install java 11.0.4.hs-adpt
 $ export JAVA_HOME=~/.sdkman/candidates/java/current
 ```
 
