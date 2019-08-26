@@ -94,6 +94,9 @@ public class FractionCalculator {
      * @return Greatest common factor for {@code a} and {@code b}.
      */
     protected int greatestCommonFactor(int a, int b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
+
         return b == 0 ? a : greatestCommonFactor(b, a % b);
     }
 

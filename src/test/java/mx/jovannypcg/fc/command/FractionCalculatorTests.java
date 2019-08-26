@@ -1,6 +1,7 @@
 package mx.jovannypcg.fc.command;
 
 import mx.jovannypcg.fc.domain.Fraction;
+import mx.jovannypcg.fc.domain.MixedFraction;
 import mx.jovannypcg.fc.validator.ArgumentValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -119,10 +122,63 @@ public class FractionCalculatorTests {
     }
 
     @Test
-    public void greatestCommonFactor_whouldReturnCommonFactor() {
+    public void greatestCommonFactor_shouldReturnCommonFactor() {
         int a = 121;
         int b = 11;
 
         assertThat(fractionCalculator.greatestCommonFactor(a, b)).isEqualTo(11);
+    }
+
+    @Test
+    public void greatestCommonFactor_shouldReturnAbsoluteCommonFactor() {
+        int a = -1;
+        int b = 3;
+
+        assertThat(fractionCalculator.greatestCommonFactor(a, b)).isEqualTo(1);
+    }
+
+    @Test
+    public void simplify_shouldReturnSameFractionIfProperFraction() {
+        List<Fraction> properFractions = List.of(Fraction.with(1, 2),
+                Fraction.with(3, 4),
+                Fraction.with(-1, 3));
+
+        properFractions.forEach(fraction -> {
+            assertThat(fractionCalculator.simplify(fraction)).isEqualTo(fraction);
+        });
+    }
+
+    @Test
+    public void simplify_shouldReturnSimpleFractionSimplified() {
+        List<Fraction> properFractions = List.of(Fraction.with(9, 27),
+                Fraction.with(11, 121),
+                Fraction.with(7, 49),
+                Fraction.with(2, 4));
+
+        List<Fraction> expectedSimplifiedFractions = List.of(Fraction.with(1, 3),
+                Fraction.with(1, 11),
+                Fraction.with(1, 7),
+                Fraction.with(1, 2));
+
+        for (int i = 0; i < properFractions.size(); i++) {
+            assertThat(fractionCalculator.simplify(properFractions.get(i)))
+                    .isEqualTo(expectedSimplifiedFractions.get(i));
+        }
+    }
+
+    @Test
+    public void simplify_shouldReturnMixedFractionIfImproperFraction() {
+        List<Fraction> improperFractions = List.of(Fraction.with(3, 2),
+                Fraction.with(21, 4),
+                Fraction.with(-13, 9));
+
+        List<Fraction> expectedSimplifiedFractions = List.of(MixedFraction.with(1, 1, 2),
+                MixedFraction.with(5, 1, 4),
+                MixedFraction.with(-1, 4, 9));
+
+        for (int i = 0; i < improperFractions.size(); i++) {
+            assertThat(fractionCalculator.simplify(improperFractions.get(i)))
+                    .isEqualTo(expectedSimplifiedFractions.get(i));
+        }
     }
 }

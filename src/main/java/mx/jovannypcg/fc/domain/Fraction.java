@@ -8,11 +8,11 @@ import java.util.regex.Pattern;
 
 public class Fraction {
     private static final String INTEGER_PATTERN = "-?\\d+";
-    private static final String SIMPLE_FRACTION_PATTERN = "-?\\d+\\/\\d+";
-    private static final String MIXED_FRACTION_PATTERN = "-?\\d+_\\d+\\/\\d+";
+    private static final String SIMPLE_FRACTION_PATTERN = "-?\\d+/\\d+";
+    private static final String MIXED_FRACTION_PATTERN = "-?\\d+_\\d+/\\d+";
 
-    protected int numerator;
-    protected int denominator;
+    int numerator;
+    int denominator;
 
     protected Fraction(int numerator, int denominator) {
         this.numerator = numerator;

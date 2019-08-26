@@ -8,8 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Arrays;
-
 @SpringBootApplication
 public class FcApplication implements CommandLineRunner {
     private FractionCalculator fractionCalculator;
@@ -24,7 +22,6 @@ public class FcApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println(Arrays.toString(args));
         try {
             Fraction result = fractionCalculator.perform(args);
             System.out.println(Message.resultOutput(args, result.toString()));
