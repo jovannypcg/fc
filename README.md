@@ -33,7 +33,17 @@ Once built, the generated Java artifact is located at `build/libs/fc.jar` and ca
 
 ```shell
 $ cd build/libs
-$ java -jar fc.jar 1/2 * 3_3/4
+$ java -jar fc.jar 1/2 + 3_3/4
+
+________
+___  __/_______
+__  /_  _  ___/
+_  __/  / /__
+/_/     \___/
+
+:: Fraction Calculator ::
+
+1/2 + 3_3/4 = 4_1/4
 ```
 
 ## Testing
