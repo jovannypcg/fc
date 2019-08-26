@@ -12,7 +12,7 @@
 
 Java 11 can be installed via [SDKMan](https://sdkman.io/install), which is a version manager for technologies related to the Java Virtual Machine (similar to `rbenv` for Ruby or `pyenv` for Python).
 
-### Installing Java 8 using SDKMan
+### Installing Java 11 using SDKMan
 
 ```shell
 $ sdk install java 11.0.4.hs-adpt
