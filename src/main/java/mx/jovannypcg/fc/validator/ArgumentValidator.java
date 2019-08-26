@@ -1,8 +1,6 @@
 package mx.jovannypcg.fc.validator;
 
 import mx.jovannypcg.fc.commons.Message;
-import mx.jovannypcg.fc.domain.Fraction;
-import mx.jovannypcg.fc.domain.SimpleFraction;
 import mx.jovannypcg.fc.exception.CalculatorException;
 import org.springframework.stereotype.Component;
 

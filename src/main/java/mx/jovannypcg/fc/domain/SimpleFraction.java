@@ -4,14 +4,39 @@ import mx.jovannypcg.fc.commons.Message;
 import mx.jovannypcg.fc.exception.CalculatorException;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
-public class SimpleFraction extends Fraction {
-    private SimpleFraction(int numerator, int denominator) {
-        super(numerator, denominator);
+public class SimpleFraction {
+    private static final String INTEGER_PATTERN = "-?\\d+";
+    private static final String SIMPLE_FRACTION_PATTERN = "-?\\d+\\/\\d+";
+    private static final String MIXED_FRACTION_PATTERN = "-?\\d+_\\d+\\/\\d+";
+
+    protected int numerator;
+    protected int denominator;
+
+    protected SimpleFraction(int numerator, int denominator) {
+        this.numerator = numerator;
+        this.denominator = denominator;
     }
 
     public static SimpleFraction with(int numerator, int denominator) {
         return new SimpleFraction(numerator, denominator);
+    }
+
+    public int getNumerator() {
+        return numerator;
+    }
+
+    public int getDenominator() {
+        return denominator;
+    }
+
+    public boolean hasZeroAsDenominator() {
+        return denominator == 0;
+    }
+
+    public boolean isImproper() {
+        return Math.abs(numerator) > denominator;
     }
 
     public static SimpleFraction parse(String operand) throws CalculatorException {
@@ -32,6 +57,24 @@ public class SimpleFraction extends Fraction {
         }
 
         return simpleFraction;
+    }
+
+    protected static boolean isInteger(String operand) {
+        return Pattern.compile(INTEGER_PATTERN)
+                .matcher(operand)
+                .matches();
+    }
+
+    protected static boolean isSimpleFraction(String operand) {
+        return Pattern.compile(SIMPLE_FRACTION_PATTERN)
+                .matcher(operand)
+                .matches();
+    }
+
+    protected static boolean isMixedFraction(String operand) {
+        return Pattern.compile(MIXED_FRACTION_PATTERN)
+                .matcher(operand)
+                .matches();
     }
 
     /**
@@ -78,5 +121,10 @@ public class SimpleFraction extends Fraction {
 
         return Objects.equals(this.numerator, thatFraction.numerator) &&
                 Objects.equals(this.denominator, thatFraction.denominator);
+    }
+
+    @Override
+    public String toString() {
+        return numerator + "/" + denominator;
     }
 }

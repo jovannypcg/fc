@@ -1,6 +1,5 @@
 package mx.jovannypcg.fc.command;
 
-import mx.jovannypcg.fc.domain.Fraction;
 import mx.jovannypcg.fc.domain.MixedFraction;
 import mx.jovannypcg.fc.domain.SimpleFraction;
 import mx.jovannypcg.fc.exception.CalculatorException;
@@ -15,7 +14,7 @@ public class FractionCalculator {
         this.argumentValidator = argumentValidator;
     }
 
-    public Fraction perform(String... args) throws CalculatorException {
+    public SimpleFraction perform(String... args) throws CalculatorException {
         argumentValidator.validate(args);
 
         if (!argumentValidator.isValid()) {
@@ -98,12 +97,12 @@ public class FractionCalculator {
         return b == 0 ? a : greatestCommonFactor(b, a % b);
     }
 
-    protected Fraction simplify(SimpleFraction simpleFraction) {
+    protected SimpleFraction simplify(SimpleFraction simpleFraction) {
         int gcf = greatestCommonFactor(simpleFraction.getNumerator(), simpleFraction.getDenominator());
         int simplifiedNumerator = simpleFraction.getNumerator() / gcf;
         int simplifiedDenominator = simpleFraction.getDenominator() / gcf;
 
-        Fraction simplified = SimpleFraction.with(simplifiedNumerator, simplifiedDenominator);
+        SimpleFraction simplified = SimpleFraction.with(simplifiedNumerator, simplifiedDenominator);
 
         if (simplified.isImproper()) {
             simplified = MixedFraction.parse(simplified);

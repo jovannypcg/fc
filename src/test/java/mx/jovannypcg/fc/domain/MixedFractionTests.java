@@ -11,11 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class MixedFractionTests {
-    private Fraction[] improperFractions;
+    private SimpleFraction[] improperFractions;
 
     @Before
     public void init() {
-        improperFractions = new Fraction[] {
+        improperFractions = new SimpleFraction[] {
                 SimpleFraction.with(8, 3),
                 SimpleFraction.with(-7, 4),
                 SimpleFraction.with(65, 44),
@@ -26,7 +26,7 @@ public class MixedFractionTests {
 
     @Test
     public void parse_shouldReturnMixedFractionWithZeroAsWholeNumberForProperFraction() {
-        Fraction properFraction = SimpleFraction.with(1, 3);
+        SimpleFraction properFraction = SimpleFraction.with(1, 3);
         MixedFraction mixedFraction = MixedFraction.parse(properFraction);
 
         attributesAssertion(mixedFraction, 0, 1, 3);
