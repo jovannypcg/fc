@@ -2,7 +2,7 @@ package mx.jovannypcg.fc.domain;
 
 import java.util.Objects;
 
-public class MixedFraction extends SimpleFraction {
+public class MixedFraction extends Fraction {
     private int wholeNumber;
 
     public int getWholeNumber() {
@@ -18,7 +18,7 @@ public class MixedFraction extends SimpleFraction {
         this.wholeNumber = wholeNumber;
     }
 
-    public static MixedFraction parse(SimpleFraction fraction) {
+    public static MixedFraction parse(Fraction fraction) {
         if (!fraction.isImproper()) {
             return new MixedFraction(0, fraction.numerator, fraction.denominator);
         }

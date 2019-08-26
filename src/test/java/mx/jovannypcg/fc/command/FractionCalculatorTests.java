@@ -1,6 +1,6 @@
 package mx.jovannypcg.fc.command;
 
-import mx.jovannypcg.fc.domain.SimpleFraction;
+import mx.jovannypcg.fc.domain.Fraction;
 import mx.jovannypcg.fc.validator.ArgumentValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class FractionCalculatorTests {
-    private SimpleFraction[] xs; // First operand
-    private SimpleFraction[] ys; // Second operand
+    private Fraction[] xs; // First operand
+    private Fraction[] ys; // Second operand
 
     @Mock
     private ArgumentValidator argumentValidator;
@@ -24,19 +24,19 @@ public class FractionCalculatorTests {
 
     @Before
     public void init() {
-        xs = new SimpleFraction[]{
-                SimpleFraction.with(2, 3),
-                SimpleFraction.with(17, 11),
-                SimpleFraction.with(-11, 8),
-                SimpleFraction.with(8, 9),
-                SimpleFraction.with(-9, 3) };
+        xs = new Fraction[]{
+                Fraction.with(2, 3),
+                Fraction.with(17, 11),
+                Fraction.with(-11, 8),
+                Fraction.with(8, 9),
+                Fraction.with(-9, 3) };
 
-        ys = new SimpleFraction[]{
-                SimpleFraction.with(9, 11),
-                SimpleFraction.with(-3, 15),
-                SimpleFraction.with(-11, 8),
-                SimpleFraction.with(9, 8),
-                SimpleFraction.with(7, 3) };
+        ys = new Fraction[]{
+                Fraction.with(9, 11),
+                Fraction.with(-3, 15),
+                Fraction.with(-11, 8),
+                Fraction.with(9, 8),
+                Fraction.with(7, 3) };
 
         fractionCalculator = new FractionCalculator(argumentValidator);
         Mockito.when(argumentValidator.isValid()).thenReturn(true);
@@ -44,16 +44,16 @@ public class FractionCalculatorTests {
 
     @Test
     public void add_shouldReturnExpectedResults() {
-        SimpleFraction[] addResults = new SimpleFraction[] {
-                SimpleFraction.with(49, 33),
-                SimpleFraction.with(222, 165),
-                SimpleFraction.with(-176, 64),
-                SimpleFraction.with(145, 72),
-                SimpleFraction.with(-6, 9),
+        Fraction[] addResults = new Fraction[] {
+                Fraction.with(49, 33),
+                Fraction.with(222, 165),
+                Fraction.with(-176, 64),
+                Fraction.with(145, 72),
+                Fraction.with(-6, 9),
         };
 
         for (int i = 0; i < xs.length; i++) { // or ys.length
-            SimpleFraction addResult = fractionCalculator.add(xs[i], ys[i]);
+            Fraction addResult = fractionCalculator.add(xs[i], ys[i]);
 
             assertThat(addResult).isEqualTo(addResults[i]);
         }
@@ -61,16 +61,16 @@ public class FractionCalculatorTests {
 
     @Test
     public void subtract_shouldReturnExpectedResults() {
-        SimpleFraction[] addResults = new SimpleFraction[] {
-                SimpleFraction.with(-5, 33),
-                SimpleFraction.with(288, 165),
-                SimpleFraction.with(0, 64),
-                SimpleFraction.with(-17, 72),
-                SimpleFraction.with(-48, 9),
+        Fraction[] addResults = new Fraction[] {
+                Fraction.with(-5, 33),
+                Fraction.with(288, 165),
+                Fraction.with(0, 64),
+                Fraction.with(-17, 72),
+                Fraction.with(-48, 9),
         };
 
         for (int i = 0; i < xs.length; i++) { // or ys.length
-            SimpleFraction addResult = fractionCalculator.subtract(xs[i], ys[i]);
+            Fraction addResult = fractionCalculator.subtract(xs[i], ys[i]);
 
             assertThat(addResult).isEqualTo(addResults[i]);
         }
@@ -78,16 +78,16 @@ public class FractionCalculatorTests {
 
     @Test
     public void multiply_shouldReturnExpectedResults() {
-        SimpleFraction[] addResults = new SimpleFraction[] {
-                SimpleFraction.with(18, 33),
-                SimpleFraction.with(-51, 165),
-                SimpleFraction.with(121, 64),
-                SimpleFraction.with(72, 72),
-                SimpleFraction.with(-63, 9),
+        Fraction[] addResults = new Fraction[] {
+                Fraction.with(18, 33),
+                Fraction.with(-51, 165),
+                Fraction.with(121, 64),
+                Fraction.with(72, 72),
+                Fraction.with(-63, 9),
         };
 
         for (int i = 0; i < xs.length; i++) { // or ys.length
-            SimpleFraction addResult = fractionCalculator.multiply(xs[i], ys[i]);
+            Fraction addResult = fractionCalculator.multiply(xs[i], ys[i]);
 
             assertThat(addResult).isEqualTo(addResults[i]);
         }
@@ -95,16 +95,16 @@ public class FractionCalculatorTests {
 
     @Test
     public void divide_shouldReturnExpectedResults() {
-        SimpleFraction[] addResults = new SimpleFraction[] {
-                SimpleFraction.with(22, 27),
-                SimpleFraction.with(-255, 33),
-                SimpleFraction.with(88, 88),
-                SimpleFraction.with(64, 81),
-                SimpleFraction.with(-27, 21),
+        Fraction[] addResults = new Fraction[] {
+                Fraction.with(22, 27),
+                Fraction.with(-255, 33),
+                Fraction.with(88, 88),
+                Fraction.with(64, 81),
+                Fraction.with(-27, 21),
         };
 
         for (int i = 0; i < xs.length; i++) { // or ys.length
-            SimpleFraction addResult = fractionCalculator.divide(xs[i], ys[i]);
+            Fraction addResult = fractionCalculator.divide(xs[i], ys[i]);
 
             assertThat(addResult).isEqualTo(addResults[i]);
         }

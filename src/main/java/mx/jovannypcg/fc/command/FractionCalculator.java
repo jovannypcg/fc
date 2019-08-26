@@ -1,7 +1,7 @@
 package mx.jovannypcg.fc.command;
 
 import mx.jovannypcg.fc.domain.MixedFraction;
-import mx.jovannypcg.fc.domain.SimpleFraction;
+import mx.jovannypcg.fc.domain.Fraction;
 import mx.jovannypcg.fc.exception.CalculatorException;
 import mx.jovannypcg.fc.validator.ArgumentValidator;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class FractionCalculator {
         this.argumentValidator = argumentValidator;
     }
 
-    public SimpleFraction perform(String... args) throws CalculatorException {
+    public Fraction perform(String... args) throws CalculatorException {
         argumentValidator.validate(args);
 
         if (!argumentValidator.isValid()) {
@@ -25,9 +25,9 @@ public class FractionCalculator {
         String yOperand = args[2];
         char operator = args[1].charAt(0);
 
-        SimpleFraction x = SimpleFraction.parse(xOperand);
-        SimpleFraction y = SimpleFraction.parse(yOperand);
-        SimpleFraction simpleResult;
+        Fraction x = Fraction.parse(xOperand);
+        Fraction y = Fraction.parse(yOperand);
+        Fraction simpleResult;
 
         switch (operator) {
             case '+':
@@ -50,28 +50,28 @@ public class FractionCalculator {
         return simpleResult.hasZeroAsDenominator() ? simpleResult : simplify(simpleResult);
     }
 
-    protected SimpleFraction add(SimpleFraction x, SimpleFraction y) {
+    protected Fraction add(Fraction x, Fraction y) {
         int resultingNumerator = (x.getNumerator() * y.getDenominator()) + (y.getNumerator() * x.getDenominator());
         int resultingDenominator = x.getDenominator() * y.getDenominator();
 
-        return SimpleFraction.with(resultingNumerator, resultingDenominator);
+        return Fraction.with(resultingNumerator, resultingDenominator);
     }
 
-    protected SimpleFraction subtract(SimpleFraction x, SimpleFraction y) {
+    protected Fraction subtract(Fraction x, Fraction y) {
         int resultingNumerator = (x.getNumerator() * y.getDenominator()) - (y.getNumerator() * x.getDenominator());
         int resultingDenominator = x.getDenominator() * y.getDenominator();
 
-        return SimpleFraction.with(resultingNumerator, resultingDenominator);
+        return Fraction.with(resultingNumerator, resultingDenominator);
     }
 
-    protected SimpleFraction multiply(SimpleFraction x, SimpleFraction y) {
+    protected Fraction multiply(Fraction x, Fraction y) {
         int resultingNumerator = x.getNumerator() * y.getNumerator();
         int resultingDenominator = x.getDenominator() * y.getDenominator();
 
-        return SimpleFraction.with(resultingNumerator, resultingDenominator);
+        return Fraction.with(resultingNumerator, resultingDenominator);
     }
 
-    protected SimpleFraction divide(SimpleFraction x, SimpleFraction y) {
+    protected Fraction divide(Fraction x, Fraction y) {
         int resultingNumerator = x.getNumerator() * y.getDenominator();
         int resultingDenominator = x.getDenominator() * y.getNumerator();
 
@@ -83,7 +83,7 @@ public class FractionCalculator {
             resultingNumerator = -resultingNumerator;
         }
 
-        return SimpleFraction.with(resultingNumerator, resultingDenominator);
+        return Fraction.with(resultingNumerator, resultingDenominator);
     }
 
     /**
@@ -97,12 +97,12 @@ public class FractionCalculator {
         return b == 0 ? a : greatestCommonFactor(b, a % b);
     }
 
-    protected SimpleFraction simplify(SimpleFraction simpleFraction) {
-        int gcf = greatestCommonFactor(simpleFraction.getNumerator(), simpleFraction.getDenominator());
-        int simplifiedNumerator = simpleFraction.getNumerator() / gcf;
-        int simplifiedDenominator = simpleFraction.getDenominator() / gcf;
+    protected Fraction simplify(Fraction fraction) {
+        int gcf = greatestCommonFactor(fraction.getNumerator(), fraction.getDenominator());
+        int simplifiedNumerator = fraction.getNumerator() / gcf;
+        int simplifiedDenominator = fraction.getDenominator() / gcf;
 
-        SimpleFraction simplified = SimpleFraction.with(simplifiedNumerator, simplifiedDenominator);
+        Fraction simplified = Fraction.with(simplifiedNumerator, simplifiedDenominator);
 
         if (simplified.isImproper()) {
             simplified = MixedFraction.parse(simplified);
