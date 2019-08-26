@@ -1,7 +1,9 @@
 package mx.jovannypcg.fc.command;
 
+import mx.jovannypcg.fc.commons.Message;
 import mx.jovannypcg.fc.domain.Fraction;
 import mx.jovannypcg.fc.domain.MixedFraction;
+import mx.jovannypcg.fc.exception.CalculatorException;
 import mx.jovannypcg.fc.validator.ArgumentValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.doThrow;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -42,7 +46,6 @@ public class FractionCalculatorTests {
                 Fraction.with(7, 3) };
 
         fractionCalculator = new FractionCalculator(argumentValidator);
-        Mockito.when(argumentValidator.isValid()).thenReturn(true);
     }
 
     @Test
@@ -180,5 +183,97 @@ public class FractionCalculatorTests {
             assertThat(fractionCalculator.simplify(improperFractions.get(i)))
                     .isEqualTo(expectedSimplifiedFractions.get(i));
         }
+    }
+
+    @Test
+    public void perform_shouldReturnAddResult() throws Exception {
+        String[] args = { "1/2", "+", "1/2" };
+
+        Fraction result = fractionCalculator.perform(args);
+        Mockito.verify(argumentValidator).validate(args);
+
+        assertThat(result).isEqualTo(Fraction.with(1, 1));
+    }
+
+    @Test
+    public void perform_shouldReturnSubtractResult() throws Exception {
+        String[] args = { "1/2", "-", "1/2" };
+
+        Fraction result = fractionCalculator.perform(args);
+        Mockito.verify(argumentValidator).validate(args);
+
+        assertThat(result).isEqualTo(Fraction.with(0, 1));
+    }
+
+    @Test
+    public void perform_shouldReturnMultiplyResult() throws Exception {
+        String[] args = { "1/2", "*", "1/2" };
+
+        Fraction result = fractionCalculator.perform(args);
+        Mockito.verify(argumentValidator).validate(args);
+
+        assertThat(result).isEqualTo(Fraction.with(1, 4));
+    }
+
+    @Test
+    public void perform_shouldReturnDivideResult() throws Exception {
+        String[] args = { "1/2", "/", "1/2" };
+
+        Fraction result = fractionCalculator.perform(args);
+        Mockito.verify(argumentValidator).validate(args);
+
+        assertThat(result).isEqualTo(Fraction.with(1, 1));
+    }
+
+    @Test
+    public void perform_shouldThrowExceptionIfUnknownOperator() throws Exception {
+        String[] args = { "1/2", "&", "1/2" };
+
+        doThrow(new CalculatorException(Message.badOrderOrFormat())).when(argumentValidator).validate(args);
+        assertThatExceptionOfType(CalculatorException.class).isThrownBy(() -> {
+            fractionCalculator.perform(args);
+        }).withMessageContaining("order of the operator");
+    }
+
+    @Test
+    public void perform_shouldThrowExceptionIfBadOrderOfArguments() throws Exception {
+        String[] args = { "1/2", "1/2", "+" };
+
+        doThrow(new CalculatorException(Message.badOrderOrFormat())).when(argumentValidator).validate(args);
+        assertThatExceptionOfType(CalculatorException.class).isThrownBy(() -> {
+            fractionCalculator.perform(args);
+        }).withMessageContaining("order of the operator");
+    }
+
+    @Test
+    public void perform_shouldThrowExceptionIfBadFormatOfOperand() throws Exception {
+        String[] args = { "1/", "1/2", "+" };
+
+        doThrow(new CalculatorException(Message.badOrderOrFormat())).when(argumentValidator).validate(args);
+        assertThatExceptionOfType(CalculatorException.class).isThrownBy(() -> {
+            fractionCalculator.perform(args);
+        }).withMessageContaining("order of the operator");
+    }
+
+    @Test
+    public void perform_shouldReturnFractionWithZeroAsDenominator() throws Exception {
+        String[] args = { "1/2", "/", "0/2" };
+
+        Fraction result = fractionCalculator.perform(args);
+        Mockito.verify(argumentValidator).validate(args);
+
+        assertThat(result).isEqualTo(Fraction.with(2, 0));
+    }
+
+    @Test
+    public void perform_shouldReturnMixedFraction() throws Exception {
+        String[] args = { "1/2", "+", "4/5" };
+
+        Fraction result = fractionCalculator.perform(args);
+        Mockito.verify(argumentValidator).validate(args);
+
+        assertThat(result).isInstanceOf(MixedFraction.class);
+        MixedFraction mixedFractionResult = (MixedFraction) result;
+        assertThat(mixedFractionResult).isEqualTo(MixedFraction.with(1, 3, 10));
     }
 }

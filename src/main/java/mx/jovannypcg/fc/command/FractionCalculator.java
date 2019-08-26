@@ -17,10 +17,6 @@ public class FractionCalculator {
     public Fraction perform(String... args) throws CalculatorException {
         argumentValidator.validate(args);
 
-        if (!argumentValidator.isValid()) {
-            throw new CalculatorException(argumentValidator.getOutcome());
-        }
-
         String xOperand = args[0];
         String yOperand = args[2];
         char operator = args[1].charAt(0);
@@ -94,10 +90,7 @@ public class FractionCalculator {
      * @return Greatest common factor for {@code a} and {@code b}.
      */
     protected int greatestCommonFactor(int a, int b) {
-        a = Math.abs(a);
-        b = Math.abs(b);
-
-        return b == 0 ? a : greatestCommonFactor(b, a % b);
+        return b == 0 ? Math.abs(a) : Math.abs(greatestCommonFactor(b, a % b));
     }
 
     protected Fraction simplify(Fraction fraction) {
