@@ -14,6 +14,19 @@ public class FractionCalculator {
         this.argumentValidator = argumentValidator;
     }
 
+    /**
+     * Execute the fraction operation based on the operator sent as argument.
+     * Operations are executed using simple fractions only, which means that integers or mixed numbers
+     * are first converted into simple fractions.
+     *
+     * The order is: operator1, operator, operator2.
+     *
+     * The arguments are validated by {@link ArgumentValidator}.
+     *
+     * @param args Operands and operator to execute the fraction operation.
+     * @return Fraction result based on the given operator: +, -, *, /.
+     * @throws CalculatorException If anything goes wrong while validationg the arguments.
+     */
     public Fraction perform(String... args) throws CalculatorException {
         argumentValidator.validate(args);
 
@@ -46,6 +59,13 @@ public class FractionCalculator {
         return simpleResult.hasZeroAsDenominator() ? simpleResult : simplify(simpleResult);
     }
 
+    /**
+     * Add {@code x} to {@code y}.
+     *
+     * @param x First operand for the operation.
+     * @param y Second operand for the operation.
+     * @return Result of the Add operation.
+     */
     protected Fraction add(Fraction x, Fraction y) {
         int resultingNumerator = (x.getNumerator() * y.getDenominator()) + (y.getNumerator() * x.getDenominator());
         int resultingDenominator = x.getDenominator() * y.getDenominator();
@@ -53,6 +73,13 @@ public class FractionCalculator {
         return Fraction.with(resultingNumerator, resultingDenominator);
     }
 
+    /**
+     * Subtract {@code y} from {@code x}.
+     *
+     * @param x First operand for the operation.
+     * @param y Second operand for the operation.
+     * @return Result of the Subtract operation.
+     */
     protected Fraction subtract(Fraction x, Fraction y) {
         int resultingNumerator = (x.getNumerator() * y.getDenominator()) - (y.getNumerator() * x.getDenominator());
         int resultingDenominator = x.getDenominator() * y.getDenominator();
@@ -60,6 +87,13 @@ public class FractionCalculator {
         return Fraction.with(resultingNumerator, resultingDenominator);
     }
 
+    /**
+     * Multiply {@code x} by {@code y}.
+     *
+     * @param x First operand for the operation.
+     * @param y Second operand for the operation.
+     * @return Result of the Multiply operation.
+     */
     protected Fraction multiply(Fraction x, Fraction y) {
         int resultingNumerator = x.getNumerator() * y.getNumerator();
         int resultingDenominator = x.getDenominator() * y.getDenominator();
@@ -67,6 +101,13 @@ public class FractionCalculator {
         return Fraction.with(resultingNumerator, resultingDenominator);
     }
 
+    /**
+     * Divide {@code x} by {@code y}.
+     *
+     * @param x First operand for the operation.
+     * @param y Second operand for the operation.
+     * @return Result of the Divide operation.
+     */
     protected Fraction divide(Fraction x, Fraction y) {
         int resultingNumerator = x.getNumerator() * y.getDenominator();
         int resultingDenominator = x.getDenominator() * y.getNumerator();
@@ -93,6 +134,15 @@ public class FractionCalculator {
         return b == 0 ? Math.abs(a) : Math.abs(greatestCommonFactor(b, a % b));
     }
 
+    /**
+     * Gets a simplified version of the given fraction. The result can be a {@link Fraction} or a {@link MixedFraction},
+     * according to the rules to simplify fractions. For instance, if {@code fraction} is improper, then a
+     * mixed fraction is return, otherwise the numerator and denomitor of the proper fraction are divided by their
+     * {@link FractionCalculator#greatestCommonFactor(int, int)}.
+     *
+     * @param fraction Fraction to simplify.
+     * @return Simplified version of the incoming fraction.
+     */
     protected Fraction simplify(Fraction fraction) {
         int gcf = greatestCommonFactor(fraction.getNumerator(), fraction.getDenominator());
         int simplifiedNumerator = fraction.getNumerator() / gcf;

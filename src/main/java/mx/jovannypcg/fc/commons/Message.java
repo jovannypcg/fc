@@ -1,5 +1,8 @@
 package mx.jovannypcg.fc.commons;
 
+/**
+ * Provides info, warning or error messages to be displayed to the user of the program.
+ */
 public class Message {
     public static String usage(String failureReason) {
         return  "Failure: " + failureReason + "\n" +
